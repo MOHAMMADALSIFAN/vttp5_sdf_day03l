@@ -27,7 +27,7 @@ public class CSVManagement {
             // lineData[0], lineData[1], lineData[2]
             String[] lineData = line.split(",");
 
-            Person p = new Person(lineData[0], lineData[1], Integer.parseInt(lineData[2]));
+            Person p = new Person(lineData[0], lineData[1], Integer.parseInt(lineData[2].trim()));
             persons.add(p);
 
         }
@@ -38,8 +38,22 @@ public class CSVManagement {
 
     }
     
-    public void writeCSV(String filename) throws IOException{
-    
+    public void writeCSV(String fullDirpathFilename, List<Person> persons) throws IOException {
+
+        FileWriter fw = new FileWriter(fullDirpathFilename);
+        BufferedWriter bw = new BufferedWriter(fw);
+
+        for (Person p: persons){
+            bw.append(p.getName());
+            bw.append(",");
+            bw.append(p.getRegion());
+            bw.append(",");
+            bw.append(String.valueOf(p.getYearOfBirth()));
+            bw.newLine();
+        }        
+    bw.flush();
+    bw.close();
+    fw.close();
 
         
 

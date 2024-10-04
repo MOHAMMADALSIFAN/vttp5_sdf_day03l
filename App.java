@@ -149,8 +149,8 @@ public class App {
         Integer selection = 0;
         while (selection !=3){
             System.out.println("1. Enter new Person details: ");
-            System.out.println("1. Save to new csv file: ");
-            System.out.println("1. Quit and terminate program: ");
+            System.out.println("2. Save to new csv file: ");
+            System.out.println("3. Quit and terminate program: ");
             selection = Integer.parseInt(consoleSelection.readLine(">>>>>>"));
 
             switch (selection) {
@@ -165,8 +165,10 @@ public class App {
                     
                     break;
                 case 2:
+                    Console con2 = System.console();
+                    String newFileName = con2.readLine("Enter a csv file to save ");
 
-
+                    csv.writeCSV(dirPath + File.separator + newFileName, persons);
                     break;
             
                 default:
