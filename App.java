@@ -10,10 +10,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.print.DocFlavor.INPUT_STREAM;
+
+import people.Person;
+import service.CSVManagement;
 
 public class App {
 
@@ -24,7 +29,7 @@ public class App {
         // arg[1] myfile\txt
         //windows: c:\data\myfile.txt
 
-        String dirPath = args[0];
+       String dirPath = args[0];
         String fileName = args[1];
         String dirPathFileName = dirPath + File.separator +  fileName;
 
@@ -46,8 +51,9 @@ public class App {
             System.out.println("File" + file.toString() + "already created");
         } else {
             file.createNewFile();
-        }
+        } 
 
+        
         // Example 1
         //use Filewiter 
         // 1. Use console to read in a string of text (sentence)
@@ -73,8 +79,8 @@ public class App {
 
         //Example 2
         // use BufferedWriter to write to file
-        Console console = System.console();
-        String keyBoardInput = console.readLine("Enter/Input a sentence: ");
+        //Console console = System.console();
+        //String keyBoardInput = console.readLine("Enter/Input a sentence: ");
        /*  FileWriter fw = new FileWriter(file, true);
         BufferedWriter bw = new BufferedWriter(fw);
         bw.append(keyBoardInput);
@@ -109,11 +115,11 @@ public class App {
 
         // Example 4 (Decorator Pattern)
         // use FileoutputStream and GzipOuputStream to write to file
-        FileOutputStream fos = new FileOutputStream(file);
+        /* FileOutputStream fos = new FileOutputStream(file);
         GZIPOutputStream gos = new GZIPOutputStream(fos);
-        byte[] Content = keyBoardInput.getBytes();
-        fos.write(Content);
-        fos.flush();
+        byte[] contents = keyBoardInput.getBytes();
+        gos.write(contents);
+        gos.flush();
         gos.close();
         fos.close();
 
@@ -127,7 +133,48 @@ public class App {
         }
         gis.close();
         fis.close();
+ */     
+        List<Person> persons = new ArrayList<>();
 
+        CSVManagement csv = new CSVManagement();
+        csv.readCSV(dirPathFileName);
+
+
+        //menu
+        //1. Enter new Person details
+        //2. Save to file (Prompt for new csv file name)
+        //3. Quit and terminate program
+
+        Console consoleSelection = System.console();
+        Integer selection = 0;
+        while (selection !=3){
+            System.out.println("1. Enter new Person details: ");
+            System.out.println("1. Save to new csv file: ");
+            System.out.println("1. Quit and terminate program: ");
+            selection = Integer.parseInt(consoleSelection.readLine(">>>>>>"));
+
+            switch (selection) {
+                case 1:
+                    Console con1 = System.console();
+                    String personName = con1.readLine("Enter Person Name: ");
+                    String personRegion = con1.readLine("Enter Region Name: ");
+                    String personYOB = con1.readLine("Enter Year of Birth: ");
+
+                    Person p = new Person (personName, personRegion, Integer.parseInt(personYOB));
+                    persons.add(p);
+                    
+                    break;
+                case 2:
+
+
+                    break;
+            
+                default:
+                    break;
+            }
+
+
+        }
 
     }
 }
