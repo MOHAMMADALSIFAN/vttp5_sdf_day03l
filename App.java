@@ -2,9 +2,18 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Console;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
+
+import javax.print.DocFlavor.INPUT_STREAM;
 
 public class App {
 
@@ -66,7 +75,7 @@ public class App {
         // use BufferedWriter to write to file
         Console console = System.console();
         String keyBoardInput = console.readLine("Enter/Input a sentence: ");
-        FileWriter fw = new FileWriter(file, true);
+       /*  FileWriter fw = new FileWriter(file, true);
         BufferedWriter bw = new BufferedWriter(fw);
         bw.append(keyBoardInput);
         bw.flush();
@@ -80,9 +89,44 @@ public class App {
             System.out.println(line);
         }
         br.close();
-        fr.close();
+        fr.close(); */
 
-        
+        //Example 3
+        //Use FileOutputStream to write to file 
+        /* FileOutputStream fos = new FileOutputStream(file, true);
+        byte[] byteContent = keyBoardInput.getBytes();
+        fos.write(byteContent);
+        fos.flush();
+        fos.close();
+
+        //use FileInputStream to read the file content
+        FileInputStream fis = new FileInputStream(file);
+        int contentRead = 0;
+        while ((contentRead = fis.read()) != -1) {
+            System.out.println((char) contentRead);
+        } 
+        fis.close(); */
+
+        // Example 4 (Decorator Pattern)
+        // use FileoutputStream and GzipOuputStream to write to file
+        FileOutputStream fos = new FileOutputStream(file);
+        GZIPOutputStream gos = new GZIPOutputStream(fos);
+        byte[] Content = keyBoardInput.getBytes();
+        fos.write(Content);
+        fos.flush();
+        gos.close();
+        fos.close();
+
+
+        //use FileInputStream and GzipInputStream to read the content
+        FileInputStream fis = new FileInputStream(file);
+        GZIPInputStream gis = new GZIPInputStream(fis);
+        int gisContent = 0;
+        while ((gisContent = gis.read()) != -1 ) {
+            System.out.println((char) gisContent);
+        }
+        gis.close();
+        fis.close();
 
 
     }
